@@ -2,6 +2,7 @@
 import { userRegistrationAction } from "@/action/userRegistrationAction";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
+import Button from "./Button";
 
 export default function UserRegistrationPage() {
     const [formState, formAction, isPending] = useActionState(userRegistrationAction, null);
@@ -86,6 +87,7 @@ export default function UserRegistrationPage() {
         <option value="default">defaulf</option>
         <option value="instractor">instractor</option>
       </select>
+      <Button type={"submit"} text={"Submit"}/>
     </form>
   );
 }
