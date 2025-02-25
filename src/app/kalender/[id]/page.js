@@ -13,22 +13,18 @@ export default async function KalenderDetails({ params }) {
   const role = cookieStore.get("landrup_role");
 
   if (role.value !== "instructor") {
-    redirect("/");
+    redirect("/login");
   }
 
-//   const data = await serverFetch(
-//     `${baseUrl}/api/v1/activities/${kalenderActivityId}`
-//   );
-//   const users = data.users;
+  const data = await serverFetchWithAuth(
+    `http://localhost:4000/api/v1/users/${userId.value}/roster/${kalenderActivityId}`,
+    token.value
+  );
 
-    const data = await serverFetchWithAuth(
-      `http://localhost:4000/api/v1/users/${userId.value}/roster/${kalenderActivityId}`, token.value);
-    console.log("ppppppppppppp", data);
-    
   return (
     <>
-          <PageHeader indhold={data.name} />
-      {users.map((user) => (
+      <PageHeader indhold={data.name} />
+      {data.map((user) => (
         <>
           <div>
             {user.firstname} {user.lastname}

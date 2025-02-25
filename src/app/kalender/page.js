@@ -76,7 +76,9 @@ export default async function kalender() {
         <div  className="text-white font-semibold text-[2.5em] overflow-hidden text-ellipsis whitespace-nowrap w-full">Logind som bruger</div>
       )}
 
+
       <div className="flex flex-col justify-center items-center">
+        
         <KalenderCard kalenderData={kalenderData} />
       </div>
         <Footer />
