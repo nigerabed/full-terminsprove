@@ -8,6 +8,7 @@ export async function userLoginAction(state, formData) {
 
   // I have copyed this zod code from Din maegler project just changed token key and form input name.
 
+
   const schema = z.object({
     username: z.string().min(1, { message: "This fiels is requred" }),
     password: z
@@ -16,12 +17,12 @@ export async function userLoginAction(state, formData) {
   });
 
   const result = schema.safeParse({ username, password });
-
+   
   if (!result.success) return result.error.format();
+ 
 
   const baseUrl = process.env.NEXT_PUBLIC_LANDRUP_API_BASE_URL;
   try {
-
     const response = await fetch(`${baseUrl}/auth/token`, {
       method: "POST",
       headers: {
@@ -33,17 +34,21 @@ export async function userLoginAction(state, formData) {
       }),
     });
 
+    if (response.status != 200) {
+      return {
+        formError: "Incorrect username or password",
+      };
     
+    }
 
     const data = await response.json();
 
     console.log(data);
 
     cookieStore.set("landrup_token", data.token, { maxAge: 60 * 60 * 24 });
-    cookieStore.set("landrup_userid", data.userId, {  maxAge: 60 * 60 * 24  });
-    cookieStore.set("landrup_role", data.role,{  maxAge: 60 * 60 * 24  });
+    cookieStore.set("landrup_userid", data.userId, { maxAge: 60 * 60 * 24 });
+    cookieStore.set("landrup_role", data.role, { maxAge: 60 * 60 * 24 });
     return { success: true };
-    
   } catch (error) {
     throw new Error(error);
   }

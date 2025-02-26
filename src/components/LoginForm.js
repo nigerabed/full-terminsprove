@@ -7,15 +7,11 @@ import { redirect } from "next/navigation";
 
 export default function LoginForm() {
   const [formState, formAction, isPending] = useActionState(userLoginAction, null);
-
+   
   useEffect(
     function () {
       if (!formState) return;
-
-      if (!formState.success) {
-        alert("FEJL!!");
-      }
-
+ 
       if (formState.success) {
         redirect("/kalender");
       }
@@ -23,11 +19,15 @@ export default function LoginForm() {
     [formState]
   );
   return (
+
+    
     <form
       action={formAction}
       method="POST"
       className="w-full flex flex-col justify-center items-center"
     >
+      {formState?.formError && <p className="text-red-500">{formState.formError}</p>}
+
       <input
         type="text"
         placeholder="brugernavn"
