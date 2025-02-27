@@ -1,7 +1,3 @@
-export const metadata = {
-  title: "Details-Activities",
-  description: "se activiti detailer here.",
-};
 
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
@@ -10,10 +6,18 @@ import { serverFetch, serverFetchWithAuth } from "@/lib/server-fetch";
 import { cookies } from "next/headers";
 import Image from "next/image";
 
+export async function generateMetaData({ params }, parent) {
+  const baseUrl = process.env.NEXT_PUBLIC_LANDRUP_API_BASE_URL;
+  const id = (await params).id;
+  const activity = await serverFetch(`${baseUrl}/api/v1/activities/${id}`);
+  return {
+    title: activity.name,
+    description: activity.description,
+  };
+}
+
 export default async function ActivityDetails({ params }) {
   const baseUrl = process.env.NEXT_PUBLIC_LANDRUP_API_BASE_URL;
-
-  console.log("baseUrl", baseUrl);
 
   const cookieStore = await cookies();
 
@@ -60,14 +64,11 @@ export default async function ActivityDetails({ params }) {
             className="h-[30em] w-full object-cover"
           />
 
-          {role && role.value === "instructor"?(<></>) : !isTilmeldt ? (
-            <TidmeldButton activityId={activityId} />
-          ) : (
-            <div className="absolute bottom-7 left-[6em]">
-              <Button text={"Forlad"} />
-            </div>
-          )}
-         
+          {role && role.value === "instructor" ? (
+            <></>
+          ) : 
+            <TidmeldButton activityId={activityId} isTilmeldt={isTilmeldt} />
+          }
         </div>
         <div className="p-[2em]">
           <h2 className="text-white text-[1.9em] font-semibold">{data.name}</h2>

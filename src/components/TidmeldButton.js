@@ -4,7 +4,10 @@ import Button from "./Button";
 import { getCookie } from "cookies-next";
 import { redirect } from "next/navigation";
 
-export default function TidmeldButton({ activityId }) {
+export default function TidmeldButton({ activityId, isTilmeldt }) {
+
+  let isTilmeldtDone = isTilmeldt;
+
   async function handleTilmeldButton() {
     //import { getCookie } from "cookies-next" fordi den er client side.
     const token = getCookie("landrup_token");
@@ -14,16 +17,16 @@ export default function TidmeldButton({ activityId }) {
       redirect("/login");
     }
 
-    let isTilmeldtDone = false;
     const baseUrl = process.env.NEXT_PUBLIC_LANDRUP_API_BASE_URL;
     const url = `${baseUrl}/api/v1/users/${userId}/activities/${activityId}`;
  
+    const action = isTilmeldtDone? "DELETE": "POST";
     try {
     
       const response = await fetch(
         url,
         {
-          method: "POST",
+          method: action,
           headers: {
             Authorization: "Bearer " + token,
             "content-type": "application/json",
@@ -49,7 +52,7 @@ export default function TidmeldButton({ activityId }) {
         onClick={handleTilmeldButton}
         className="pl-[5em] absolute bottom-[2em] left-[2em]"
       >
-        <Button text={"Tilmeld"} />
+        <Button text={ isTilmeldtDone ? "Forlad" : "Tilmeld"} />
       </div>
     </>
   );

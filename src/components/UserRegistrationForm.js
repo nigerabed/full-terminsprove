@@ -1,19 +1,30 @@
 "use client";
 import { userRegistrationAction } from "@/action/userRegistrationAction";
 import { redirect } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
+import {FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+ 
+
 import Button from "./Button";
+ 
 
 export default function UserRegistrationPage() {
     const [formState, formAction, isPending] = useActionState(userRegistrationAction, null);
+    const [password, setPassword] = useState("password");
+
+
+
+    function showPassword(){
+      setPassword("text");
+      setTimeout(function(){
+        setPassword("password")
+      }, 2000)
+    }
+
 
      useEffect(
         function () {
           if (!formState) return;
-    
-          if (!formState.success) {
-            alert("FEJL!!");
-          }
     
           if (formState.success) {
             redirect("/activitier");
@@ -21,6 +32,8 @@ export default function UserRegistrationPage() {
         },
         [formState]
       );
+
+    
 
   return (
     <form
@@ -40,12 +53,15 @@ export default function UserRegistrationPage() {
         {formState?.username?._errors.map((error) => error)}
       </span>
       <input
-        type="Password"
+        type={password}
         name="password"
         placeholder="adgangskode"
         className="placeholder:text-slate-400 block bg-white w-[80%] border border-slate-300 rounded-[.2em] 
             py-2 pl-4 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm mt-[2em] mb-[2em]"
       />
+      <button disabled={ password === "text" ? true : false } type="button" onClick={showPassword}>
+        { password=== "password" ? <FaRegEye/>: <FaRegEyeSlash />}
+      </button>
           <span className="text-red-600 text-[.8em] mt-[.3em]">
         {formState?.Password?._errors.map((error) => error)}
       </span>
@@ -87,7 +103,7 @@ export default function UserRegistrationPage() {
         <option value="default">defaulf</option>
         <option value="instractor">instractor</option>
       </select>
-      <Button type={"submit"} text={"Submit"}/>
+      <Button type={"submit"} text={isPending ?"Registering ny brugere" : "Register"}/>
     </form>
   );
 }
