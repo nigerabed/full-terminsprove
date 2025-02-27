@@ -21,7 +21,7 @@ export default async function ActivityDetails({ params }) {
 
   const cookieStore = await cookies();
 
-  const activityId = await params?.id;
+  const activityId = (await params).id;
 
   const data = await serverFetch(`${baseUrl}/api/v1/activities/${activityId}`);
   console.log("dataaaaaaaaaaaa", data);

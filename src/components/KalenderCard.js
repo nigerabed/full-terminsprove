@@ -31,10 +31,11 @@ export default async function KalenderCard({ kalenderData }) {
                 </div>
                 </Link>
               ) : (<>
+              <Link href={`/activitier/${activity.id}`}>
               <div
                   key={activity.id}
                   className="bg-white w-[90%] flex flex-col justify-center items-start h-[9em] mt-[2em] pl-[1em] rounded-lg"
-                >
+                  >
                   <div className="text-black font-semibold text-[2.5em] overflow-hidden text-ellipsis whitespace-nowrap w-full">
                     {activity.name}
                   </div>
@@ -42,6 +43,7 @@ export default async function KalenderCard({ kalenderData }) {
                     {activity.weekday} {activity.time}
                   </div>
                 </div>
+                  </Link>
               </>)}
             </>
           ))}

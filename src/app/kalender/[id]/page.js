@@ -1,3 +1,4 @@
+import KalenderDetailsCard from "@/components/KalenderDetailsCard";
 import PageHeader from "@/components/PageHeader";
 import { serverFetch, serverFetchWithAuth } from "@/lib/server-fetch";
 import { cookies } from "next/headers";
@@ -16,18 +17,18 @@ export default async function KalenderDetails({ params }) {
     redirect("/login");
   }
 
-  const data = await serverFetchWithAuth(
+  const kalenderDetailsData = await serverFetchWithAuth(
     `http://localhost:4000/api/v1/users/${userId.value}/roster/${kalenderActivityId}`,
     token.value
   );
 
   return (
     <>
-      <PageHeader indhold={data.name} />
-      {data.map((user) => (
+      <PageHeader indhold={kalenderDetailsData.name} />
+      {kalenderDetailsData.map((kalenderDetail) => (
         <>
-          <div>
-            {user.firstname} {user.lastname}
+          <div key={kalenderDetail.id}>
+           <KalenderDetailsCard kalenderDetail = {kalenderDetail}/>
           </div>
         </>
       ))}
