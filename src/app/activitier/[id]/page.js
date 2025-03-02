@@ -6,7 +6,7 @@ import { serverFetch, serverFetchWithAuth } from "@/lib/server-fetch";
 import { cookies } from "next/headers";
 import Image from "next/image";
 
-export async function generateMetaData({ params }, parent) {
+export async function generateMetadata({ params }, parent) {
   const baseUrl = process.env.NEXT_PUBLIC_LANDRUP_API_BASE_URL;
   const id = (await params).id;
   const activity = await serverFetch(`${baseUrl}/api/v1/activities/${id}`);
@@ -18,6 +18,7 @@ export async function generateMetaData({ params }, parent) {
 
 export default async function ActivityDetails({ params }) {
   const baseUrl = process.env.NEXT_PUBLIC_LANDRUP_API_BASE_URL;
+  console.log(baseUrl)
 
   const cookieStore = await cookies();
 

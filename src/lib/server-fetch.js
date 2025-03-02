@@ -1,4 +1,4 @@
-
+// Utility Function
 import { NextResponse } from "next/server"
 
 export async function serverFetch(url) {
