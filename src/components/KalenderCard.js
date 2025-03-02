@@ -17,7 +17,7 @@ export default async function KalenderCard({ kalenderData }) {
           {kalenderData.map((activity) => (
             <>
               {role.value.includes("instructor") ? (
-                   <Link href={`/kalender/${activity.id}`}>
+                   <Link href={`/kalender/${activity.id}`} key={activity.id}>
                       <div
                   key={activity.id}
                   className="bg-white w-[90%] flex flex-col justify-center items-start h-[9em] mt-[2em] pl-[1em] rounded-lg"
@@ -31,7 +31,7 @@ export default async function KalenderCard({ kalenderData }) {
                 </div>
                 </Link>
               ) : (<>
-              <Link href={`/activitier/${activity.id}`}>
+              <Link href={`/activitier/${activity.id}`} key={activity.id}>
               <div
                   key={activity.id}
                   className="bg-white w-[90%] flex flex-col justify-center items-start h-[9em] mt-[2em] pl-[1em] rounded-lg"
